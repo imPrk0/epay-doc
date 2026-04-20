@@ -20,6 +20,7 @@ export default <DefaultTheme.Config>{
                 {
                     text: '枚举',
                     items: [
+                        { text: '支付方式', link: '/rules/pay-methods' },
                         { text: '订单状态', link: '/rules/order-status' },
                         { text: '支付类型', link: '/rules/pay-type' },
                         { text: '设备类型', link: '/rules/device-type' },
@@ -89,6 +90,7 @@ export default <DefaultTheme.Config>{
             text: '通用参数规则',
             collapsed: false,
             items: [
+                { text: '支付方式枚举', link: '/rules/pay-methods' },
                 { text: '订单状态枚举', link: '/rules/order-status' },
                 { text: '支付类型枚举', link: '/rules/pay-type' },
                 { text: '设备类型枚举', link: '/rules/device-type' },

@@ -22,7 +22,8 @@ export default defineConfig({
             groupIconVitePlugin({
                 customIcon: {
                     php: localIconLoader(import.meta.url, '../icons/php.svg'),
-                    typescript: localIconLoader(import.meta.url, '../icons/typescript.svg')
+                    typescript: localIconLoader(import.meta.url, '../icons/typescript.svg'),
+                    javascript: localIconLoader(import.meta.url, '../icons/javascript.svg')
                 }
             })
         ]

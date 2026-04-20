@@ -7,34 +7,9 @@
 :::
 
 
-## 请求 {#request}
+## 获得预验签字符串 {#pre-sign}
 
-> 对用户客户端向本平台发起的接口请求，需要进行签名。
-
-1、获取请求报文所有非空请求参数，不包括数组、字节类型参数，如文件、字节流，剔除sign、sign_type字段，并按照第一个字符的键值ASCII码递增排序（字母升序排序），如果遇到相同字符则按照第二个字符的键值ASCII码递增排序，以此类推。
-
-2、将排序后的参数和对应值，组合成“参数=参数值”的格式，并且把这些参数用 & 字符连接起来，此时生成的字符串为待签名字符串。
-
-3、使用商户私钥，对待签名字符串计算RSA签名（SHA256WithRSA），得到签名sign。
-
-## 响应 {#response}
-
-> 针对本平台接口向用户客户端返回的数据，以及异步通知回调的数据，需进行验签。
-
-1、先根据签名步骤里面的1～2，获取到待签名字符串。
-
-2、使用平台公钥，根据签名字符串sign，对待签名字符串与进行RSA验签（SHA256WithRSA）
-
-注意事项
-
-1、商户私钥（private key）需填写到代码中供签名时使用。生成的私钥需妥善保管，避免遗失，不要泄露。
-
-2、平台公钥（public key）用于接口返回数据、异步通知回调数据的验签。
-
-3、具体发起支付相关流程的示例代码可下载SDK查看。
-
-
-## 传统 V1 版本 MD5 签名算法 {#sign-md5}
+无论是 V1 版还是 V2 版本接口，签名算法的第一步都是对请求参数进行排序，规则为：
 
 1. **排序**
 
@@ -91,7 +66,84 @@ email=188@example.com&phone=18888888888
 
 </div>
 
-4. **MD5**
+
+## 请求加签 {#request}
+
+> 对商户的客户端向本平台发起的接口请求，需要进行签名。
+
+1. **获得预验签字符串**
+
+<div style="margin-top: -1rem; margin-left: 1.3rem;">
+
+请先通过 “[获得预验签字符串](#pre-sign)” 进行排序。
+
+</div>
+
+2. **验证**
+
+<div style="margin-top: -1rem; margin-left: 1.3rem;">
+
+使用 “**商户私钥**”，对上一步获得的待验签字符串计算 RSA 签名 _(SHA256WithRSA)_，即可得到签名。
+
+</div>
+
+**代码示例**：
+
+::: code-group
+<<< @/../codes/php-v2-sign.php [PHP]
+:::
+
+
+## 响应与被动验签 {#response}
+
+> 针对本平台接口向用户客户端返回的数据，以及异步通知回调的数据，需进行验签。
+
+1. **检查**
+
+<div style="margin-top: -1rem; margin-left: 1.3rem;">
+
+如果服务端没有给你返回参数或者没有返回 `sign` 或 `timestamp` 时间参数，则直接验签失败。
+
+::: warning ⚠️ 注意
+如果 `timestamp` 时间参数距离当前时间超过 5 分钟 _(300 秒)_，则验签失败，可能是重放攻击或者请求被篡改了。
+:::
+
+</div>
+
+2. **获得预验签字符串**
+
+<div style="margin-top: -1rem; margin-left: 1.3rem;">
+
+请先通过 “[获得预验签字符串](#pre-sign)” 进行排序。
+
+</div>
+
+3. **签名**
+
+<div style="margin-top: -1rem; margin-left: 1.3rem;">
+
+使用 “**平台公钥**”，根据签名字符串 `sign`，对上一步获得的 “预验签字符串” 进行 RSA 验签 (SHA256WithRSA)。
+
+</div>
+
+**代码示例**：
+
+::: code-group
+<<< @/../codes/php-v2-verify.php [PHP]
+:::
+
+
+## 传统 V1 版本 MD5 签名算法 {#sign-md5}
+
+1. **获得预验签字符串**
+
+<div style="margin-top: -1rem; margin-left: 1.3rem;">
+
+请先通过 “[获得预验签字符串](#pre-sign)” 进行排序。
+
+</div>
+
+2. **MD5**
 
 <div style="margin-top: -1rem; margin-left: 1.3rem;">
 
@@ -109,4 +161,6 @@ email=188@example.com&phone=18888888888
 
 ::: code-group
 <<< @/../codes/php-v1-sign.php [PHP]
+<<< @/../codes/typescript-v1-sign.ts [TypeScript]
+<<< @/../codes/javascript-v1-sign.js [JavaScript]
 :::
