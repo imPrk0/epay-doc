@@ -18,6 +18,7 @@
         "vue": "^3.5.32"
     },
     "dependencies": {
+        "@antdv-next/icons": "^1.0.6",
         "@catppuccin/vitepress": "^0.1.2",
         "antdv-next": "^1.2.0",
         "vitepress-plugin-group-icons": "^1.7.5"
