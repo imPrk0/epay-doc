@@ -1,5 +1,7 @@
 # 🌈 彩虹易支付 - 开发文档
 
+![](https://github.com/imPrk0/epay-doc/blob/main/.github/design/banner.png?raw=true)
+
 请注意，这并不是 [彩虹易支付](https://pay.cccyun.cc/) 官方维护的项目。因个人觉得 [彩虹易支付](https://pay.cccyun.cc/) 当前的文档并不美观，因此使用 VitePress 与美化主题重新编写了文档。
 
 如果未来 [彩虹易支付](https://pay.cccyun.cc/) 官方收编了本项目，本项目也将可以持续性维护！
@@ -29,16 +31,16 @@
 1. Clone 这个仓库
   - HTTPS
     ``` sh
-    git clone https://github.com/imPrk0/spay-doc.git
+    git clone https://github.com/imPrk0/epay-doc.git
     ```
   - SSH
     ``` sh
-    git clone git@github.com:imPrk0/spay-doc.git
+    git clone git@github.com:imPrk0/epay-doc.git
     ```
 
 2. 进入项目目录并安装依赖
   ``` sh
-  cd ./spay-doc
+  cd ./epay-doc
   pnpm install
   ```
 
